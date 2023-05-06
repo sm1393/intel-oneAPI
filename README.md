@@ -1,8 +1,8 @@
 # intel-oneAPI
 
-#### Team Name -
-#### Problem Statement - 
-#### Team Leader Email -
+#### Team Name - Momentum
+#### Problem Statement - Object Detection For Autonomous Vehicles
+#### Team Leader Email - sudb97@gmail.com
 
 ## A Brief of the Prototype:
   This section must include UML Daigrms and prototype description
