@@ -1,7 +1,7 @@
 *.pyc
 #*.jpg
 *.json
-*.png
+# *.png
 *.pth
 
 events.out.tfevents.*
