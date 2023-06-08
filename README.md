@@ -14,17 +14,21 @@
 
 
 
-## A Brief of the Prototype:
+## 📜Prototype Brief:
   Description:
   The model will be trained on image input which will be temporal in nature. Required data-preprocessing will be done using intel's oneDAL libraries. Further training will be done using HybridNet neural network Architecture with the intel's oneDNN pytorch optimization to perform faster training. Finally the real time inference will be achieved using the intel's oneDNN libraries which will provide mainly three outputs that are, object bounding box, object class and lane detection.This project is part of the Intel OneAPI Hackathon 2023, we have used HybridNet for tackling the object detection and Segmentation Problem. HybridNets is an end2end perception network for multi-tasks. Our work focused on traffic object detection, drivable area segmentation and lane detection.  HybridNets can run real-time on embedded systems, and obtains SOTA Object Detection, Lane Detection on BDD100K Dataset. 
-![Screenshot from 2023-06-09 01-05-25](https://github.com/sudb97/intel-oneAPI/assets/42773775/5e42a9ba-d7fe-4141-80cb-569f74e88ec8)
+![Screenshot from 2023-06-09 01-45-27](https://github.com/sudb97/intel-oneAPI/assets/42773775/1fe84198-50a8-44f0-8fdb-1304d2bac493)
+
+
 
 
   
 ## Tech Stack: 
    List Down all technologies used to Build the prototype **Clearly mentioning Intel® AI Analytics Toolkits, it's libraries and the SYCL/DCP++ Libraries used**
+   ![Screenshot from 2023-06-09 01-25-31](https://github.com/sudb97/intel-oneAPI/assets/42773775/f8a02538-83e5-443f-8f68-cfd40f6c5a25)
 
-### Project Structure
+
+### 🍞Project Structure
 ```bash
 HybridNets
 │   backbone.py                   # Model configuration
@@ -59,13 +63,13 @@ HybridNets
     │   utils.py                  # Various helper functions (preprocess, postprocess, eval...)
 ```
 
-### Installation
+### 🍞 Installation
 The project was developed with [**Python>=3.7**](https://www.python.org/downloads/) and [**Pytorch>=1.10**](https://pytorch.org/get-started/locally/).
 ```bash
 pip install -r requirements.txt
 ```
  
-### Project Demo - Step-by-Step Code Execution Instructions:
+### 🚩 Project Demo - Step-by-Step Code Execution Instructions:
 ```bash
 # Download end-to-end weights
 curl --create-dirs -L -o weights/hybridnets.pth https://github.com/datvuthanh/HybridNets/releases/download/v1.0/hybridnets.pth
@@ -79,7 +83,7 @@ python hybridnets_test_videos.py -w weights/hybridnets.pth --source demo/video -
 # Result is saved in a new folder called demo_result
 ```
 
-## Usage
+## 🚩 Usage
 ### Data Preparation
 dataset structure:
 ```bash
@@ -106,18 +110,9 @@ For BDD100K:
 - [ll_seg_annot](https://drive.google.com/file/d/1jvuSeK-Oofs4OWPL_FiBnTlMYHEAQYUC/view?usp=sharing)
 
 
-## References 
+## 📜 References 
 > [**HybridNets: End-to-End Perception Network Paper Link**](https://arxiv.org/abs/2203.09035)
 
-   
-
-  
-## What I Learned:
-   Write about the biggest learning you had while developing the prototype
-
-Install torch:
- pip install torch==1.13.1+cpu torchvision==0.14.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
- 
- 
-Install ipex:
-    pip install intel_extension_for_pytorch==1.13.100 -f https://developer.intel.com/ipex-whl-stable-cpu
+## 📜 What I Learned:
+  -> Usage of End2End Perception Network Hybridnet to do image and video inferencing for simultaneous object detection and segmentation.
+  -> Incorporation of Intel oneAPI libraries oneDNN libraries.
