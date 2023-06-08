@@ -1,5 +1,6 @@
 import time
 import torch
+#print(torch.__version__)
 from torch.backends import cudnn
 from backbone import HybridNetsBackbone
 import cv2
@@ -95,8 +96,13 @@ model.load_state_dict(weight.get('model', weight))
 model.requires_grad_(False)
 model.eval()
 
+<<<<<<< HEAD
 #Added for intel optimization
 #model = ipex.optimize(model)
+=======
+#Code line added for intel optimized inference(Uncomment to use)
+model = ipex.optimize(model)
+>>>>>>> f97d1a2bb5b05bfdfa29e67838b374cacc710443
 
 if use_cuda:
     model = model.cuda()

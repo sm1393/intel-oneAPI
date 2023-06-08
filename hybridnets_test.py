@@ -16,6 +16,9 @@ from collections import OrderedDict
 from torch.nn import functional as F
 import intel_extension_for_pytorch as ipex
 
+#Library Added for intel Optimization
+import intel_extension_for_pytorch as ipex
+
 
 parser = argparse.ArgumentParser('HybridNets: End-to-End Perception Network - DatVu')
 parser.add_argument('-p', '--project', type=str, default='bdd100k', help='Project file that contains parameters')
@@ -130,7 +133,6 @@ model.load_state_dict(weight)
 model.requires_grad_(False)
 model.eval()
 
-#Added for intel optimization
 #model = ipex.optimize(model)
 
 if use_cuda:

@@ -10,7 +10,6 @@
 [![PyTorch - Version](https://img.shields.io/badge/PYTORCH-1.10+-red?style=for-the-badge&logo=pytorch)](https://pytorch.org/get-started/locally/) 
 [![Python - Version](https://img.shields.io/badge/PYTHON-3.7+-red?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
 <br>
- 
 </div>
 
 
@@ -18,7 +17,8 @@
 ## A Brief of the Prototype:
   Description:
   The model will be trained on image input which will be temporal in nature. Required data-preprocessing will be done using intel's oneDAL libraries. Further training will be done using HybridNet neural network Architecture with the intel's oneDNN pytorch optimization to perform faster training. Finally the real time inference will be achieved using the intel's oneDNN libraries which will provide mainly three outputs that are, object bounding box, object class and lane detection.This project is part of the Intel OneAPI Hackathon 2023, we have used HybridNet for tackling the object detection and Segmentation Problem. HybridNets is an end2end perception network for multi-tasks. Our work focused on traffic object detection, drivable area segmentation and lane detection.  HybridNets can run real-time on embedded systems, and obtains SOTA Object Detection, Lane Detection on BDD100K Dataset. 
- ![image](https://user-images.githubusercontent.com/42773775/236668806-39f54a98-8f70-47a2-81d4-3ff1b7505055.png)
+![Screenshot from 2023-06-09 01-05-25](https://github.com/sudb97/intel-oneAPI/assets/42773775/5e42a9ba-d7fe-4141-80cb-569f74e88ec8)
+
 
   
 ## Tech Stack: 
@@ -105,6 +105,8 @@ For BDD100K:
 - [da_seg_annot](https://drive.google.com/file/d/1FDP7ojolsRu_1z1CXoWUousqeqOdmS68/view?usp=sharing)
 - [ll_seg_annot](https://drive.google.com/file/d/1jvuSeK-Oofs4OWPL_FiBnTlMYHEAQYUC/view?usp=sharing)
 
+
+## References 
 > [**HybridNets: End-to-End Perception Network Paper Link**](https://arxiv.org/abs/2203.09035)
 
    
