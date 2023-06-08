@@ -112,3 +112,10 @@ For BDD100K:
   
 ## What I Learned:
    Write about the biggest learning you had while developing the prototype
+
+Install torch:
+ pip install torch==1.13.1+cpu torchvision==0.14.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
+ 
+ 
+Install ipex:
+    pip install intel_extension_for_pytorch==1.13.100 -f https://developer.intel.com/ipex-whl-stable-cpu

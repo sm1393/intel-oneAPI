@@ -16,3 +16,4 @@ tqdm>=4.61.2
 webcolors>=1.11.1
 urllib3==1.26.6 
 Flask
+modin[all]

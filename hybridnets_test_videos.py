@@ -12,6 +12,7 @@ import os
 from torchvision import transforms
 import argparse
 from utils.constants import *
+import intel_extension_for_pytorch as ipex
 
 parser = argparse.ArgumentParser('HybridNets: End-to-End Perception Network - DatVu')
 parser.add_argument('-p', '--project', type=str, default='bdd100k', help='Project file that contains parameters')
@@ -94,6 +95,9 @@ model.load_state_dict(weight.get('model', weight))
 model.requires_grad_(False)
 model.eval()
 
+#Added for intel optimization
+#model = ipex.optimize(model)
+
 if use_cuda:
     model = model.cuda()
     if use_float16:
@@ -107,7 +111,8 @@ for video_index, video_src in enumerate(video_srcs):
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out_stream = cv2.VideoWriter(video_out, fourcc, 24.0,
-                                 (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
+                                 (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
+                                  int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
     t1 = time.time()
     frame_count = 0
     while True:
@@ -155,7 +160,7 @@ for video_index, video_src in enumerate(video_srcs):
             color_mask = np.mean(color_seg, 2)  # (H, W, C) -> (H, W), check if any pixel is not background
             frame[color_mask != 0] = frame[color_mask != 0] * 0.5 + color_seg[color_mask != 0] * 0.5
             frame = frame.astype(np.uint8)
-            # cv2.imwrite('seg_{}.jpg'.format(i), ori_img)
+            cv2.imwrite('seg_{}.jpg'.format(i), ori_img)
 
             out = postprocess(x,
                               anchors, regression, classification,

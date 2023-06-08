@@ -14,6 +14,7 @@ import argparse
 from utils.constants import *
 from collections import OrderedDict
 from torch.nn import functional as F
+import intel_extension_for_pytorch as ipex
 
 
 parser = argparse.ArgumentParser('HybridNets: End-to-End Perception Network - DatVu')
@@ -129,6 +130,9 @@ model.load_state_dict(weight)
 model.requires_grad_(False)
 model.eval()
 
+#Added for intel optimization
+#model = ipex.optimize(model)
+
 if use_cuda:
     model = model.cuda()
     if use_float16:
@@ -224,6 +228,7 @@ with torch.no_grad():
                           anchors, regression, classification,
                           regressBoxes, clipBoxes,
                           threshold, iou_threshold)
+        print(type(out))
 
     t2 = time.time()
     tact_time = (t2 - t1) / 10
