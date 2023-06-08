@@ -14,15 +14,19 @@
 
 
 
-##📜Prototype Brief:
+## 📜Prototype Brief:
   Description:
   The model will be trained on image input which will be temporal in nature. Required data-preprocessing will be done using intel's oneDAL libraries. Further training will be done using HybridNet neural network Architecture with the intel's oneDNN pytorch optimization to perform faster training. Finally the real time inference will be achieved using the intel's oneDNN libraries which will provide mainly three outputs that are, object bounding box, object class and lane detection.This project is part of the Intel OneAPI Hackathon 2023, we have used HybridNet for tackling the object detection and Segmentation Problem. HybridNets is an end2end perception network for multi-tasks. Our work focused on traffic object detection, drivable area segmentation and lane detection.  HybridNets can run real-time on embedded systems, and obtains SOTA Object Detection, Lane Detection on BDD100K Dataset. 
-![Screenshot from 2023-06-09 01-05-25](https://github.com/sudb97/intel-oneAPI/assets/42773775/5e42a9ba-d7fe-4141-80cb-569f74e88ec8)
+![Screenshot from 2023-06-09 01-45-27](https://github.com/sudb97/intel-oneAPI/assets/42773775/1fe84198-50a8-44f0-8fdb-1304d2bac493)
+
+
 
 
   
 ## Tech Stack: 
    List Down all technologies used to Build the prototype **Clearly mentioning Intel® AI Analytics Toolkits, it's libraries and the SYCL/DCP++ Libraries used**
+   ![Screenshot from 2023-06-09 01-25-31](https://github.com/sudb97/intel-oneAPI/assets/42773775/f8a02538-83e5-443f-8f68-cfd40f6c5a25)
+
 
 ### 🍞Project Structure
 ```bash
