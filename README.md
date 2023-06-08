@@ -17,6 +17,8 @@
 ## 📜Prototype Brief:
   Description:
   The model will be trained on image input which will be temporal in nature. Required data-preprocessing will be done using intel's oneDAL libraries. Further training will be done using HybridNet neural network Architecture with the intel's oneDNN pytorch optimization to perform faster training. Finally the real time inference will be achieved using the intel's oneDNN libraries which will provide mainly three outputs that are, object bounding box, object class and lane detection.This project is part of the Intel OneAPI Hackathon 2023, we have used HybridNet for tackling the object detection and Segmentation Problem. HybridNets is an end2end perception network for multi-tasks. Our work focused on traffic object detection, drivable area segmentation and lane detection.  HybridNets can run real-time on embedded systems, and obtains SOTA Object Detection, Lane Detection on BDD100K Dataset. 
+  
+![Screenshot from 2023-06-09 03-07-52](https://github.com/sudb97/intel-oneAPI/assets/42773775/80a9e6ed-c410-427b-b8c7-2dbd75232088)
 ![Screenshot from 2023-06-09 01-45-27](https://github.com/sudb97/intel-oneAPI/assets/42773775/1fe84198-50a8-44f0-8fdb-1304d2bac493)
 
 
@@ -83,10 +85,10 @@ pip install -r requirements.txt
 curl --create-dirs -L -o weights/hybridnets.pth https://github.com/datvuthanh/HybridNets/releases/download/v1.0/hybridnets.pth
 
 # Image inference
-python hybridnets_test.py -w weights/hybridnets.pth --source demo/image --output demo_result --imshow False --imwrite True
+python3 hybridnets_test_plot.py --use_optimization True --speed_test True
 
 # Video inference
-python hybridnets_test_videos.py -w weights/hybridnets.pth --source demo/video --output demo_result
+python3 hybridnets_test_videos_plot.py --use_optimization True
 
 # Result is saved in a new folder called demo_result
 ```
