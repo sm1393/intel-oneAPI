@@ -146,7 +146,7 @@ For BDD100K: (DataSets Used)
 ## 🚩 Benchmarking Results
 ![Screenshot from 2023-06-09 20-32-57](https://github.com/sudb97/intel-oneAPI/assets/42773775/28bc0404-0f66-4975-a19f-a9539bf74b2c)
 ![Screenshot from 2023-06-09 20-34-19](https://github.com/sudb97/intel-oneAPI/assets/42773775/51b1da23-c512-478f-807e-77673d3ea6c8)
-
+*inference time is measured in seconds.
 
 ## 📜 References 
 > [**HybridNets: End-to-End Perception Network Paper Link**](https://arxiv.org/abs/2203.09035)
@@ -154,7 +154,7 @@ For BDD100K: (DataSets Used)
 ## 📜 What I Learned:
   1. Expansion of domain knowledge in deep learning based computer vision techniques like object detection and segmentation.<br>
   2. Usage of End2End Perception Network Hybridnet to do image and video inferencing for simultaneous object detection and segmentation.<br>
-  3. Importance of Robustness in Autonomous Driving: Development of a robust algorithm that could handle all weather conditions, night time conditions as evident by the          results.<br>
+  3. Importance of Robustness in Autonomous Driving: Development of a robust algorithm that could handle all weather conditions, night time        conditions as evident by the results.<br>
   4. Incorporation of Intel oneAPI libraries oneDNN libraries.<br>
   5. Learnt about Optimisation techniques for faster inferencing, specifically the libraries developed by Intel.<br>
   
