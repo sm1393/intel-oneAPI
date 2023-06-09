@@ -1,4 +1,4 @@
-# intel-oneAPI
+# Intel-OneAPI
 
 #### Team Name - Momentum
 #### Problem Statement - Object Detection For Autonomous Vehicles
