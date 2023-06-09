@@ -79,7 +79,20 @@ HybridNets
 ### 🍞 Installation
 The project was developed with [**Python>=3.7**](https://www.python.org/downloads/) and [**Pytorch>=1.10**](https://pytorch.org/get-started/locally/).
 ```bash
+# Creating Anaconda Virtual Environment Inside Project Folder
+conda create -p venv python==3.7.2 -y
+
+# Activating the created Virtual Environment
+conda activate venv/
+
+#Installing Dependencies
 pip install -r requirements.txt
+
+#Installing Pytorch for CPU
+pip install torch==1.13.1+cpu torchvision==0.14.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
+
+#Installing Intel Pytorch Optimisation Ipex Dependency
+pip install intel_extension_for_pytorch==1.13.100 -f https://developer.intel.com/ipex-whl-stable-cpu
 ```
  
 ### 🚩 Project Demo - Step-by-Step Code Execution Instructions:
@@ -87,11 +100,17 @@ pip install -r requirements.txt
 # Download end-to-end weights
 curl --create-dirs -L -o weights/hybridnets.pth https://github.com/datvuthanh/HybridNets/releases/download/v1.0/hybridnets.pth
 
-# Image inference
-python3 hybridnets_test_images.py --source demo/images --output demo_result/images without_optimization --use_optimization False --enable_postprocessing True
+# Image inference with Intel Optimisation
+python3 hybridnets_test_images.py --source demo/images --output demo_result/images --use_optimization True --enable_postprocessing True
 
-# Video inference
-python3 hybridnets_test_videos.py --source demo/video --output demo_result/video --use_optimization False- --enable_postprocessing True
+# Image inference without Intel Optimisation
+python3 hybridnets_test_images.py --source demo/images --output demo_result/images --use_optimization False --enable_postprocessing True
+
+# Video inference with Intel Optimisation
+python3 hybridnets_test_videos.py --source demo/video --output demo_result/video --use_optimization True --enable_postprocessing True
+
+# Video inference without Intel Optimisation
+python3 hybridnets_test_videos.py --source demo/video --output demo_result/video --use_optimization False --enable_postprocessing True
 
 # Result is saved in a new folder called demo_result
 ```
@@ -121,6 +140,12 @@ For BDD100K: (DataSets Used)
 - [det_annot](https://drive.google.com/file/d/1QttvnPI1srmlHp86V-waD3Mn5lT9f4ky/view?usp=sharing)
 - [da_seg_annot](https://drive.google.com/file/d/1FDP7ojolsRu_1z1CXoWUousqeqOdmS68/view?usp=sharing)
 - [ll_seg_annot](https://drive.google.com/file/d/1jvuSeK-Oofs4OWPL_FiBnTlMYHEAQYUC/view?usp=sharing)
+
+## 🚩 PPT and Demonstration Link
+
+## 🚩 Benchmarking Results
+![Screenshot from 2023-06-09 20-32-57](https://github.com/sudb97/intel-oneAPI/assets/42773775/28bc0404-0f66-4975-a19f-a9539bf74b2c)
+![Screenshot from 2023-06-09 20-34-19](https://github.com/sudb97/intel-oneAPI/assets/42773775/51b1da23-c512-478f-807e-77673d3ea6c8)
 
 
 ## 📜 References 
