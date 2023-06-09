@@ -141,7 +141,8 @@ For BDD100K: (DataSets Used)
 - [da_seg_annot](https://drive.google.com/file/d/1FDP7ojolsRu_1z1CXoWUousqeqOdmS68/view?usp=sharing)
 - [ll_seg_annot](https://drive.google.com/file/d/1jvuSeK-Oofs4OWPL_FiBnTlMYHEAQYUC/view?usp=sharing)
 
-## 🚩 PPT and Demonstration Link
+## 🚩 PPT and Demonstration
+> [**PPT and Demonstration Link**](https://drive.google.com/drive/folders/1EN99GaKKElWUFpHM6GZKaOoYYj4xqUr4?usp=drive_link)
 
 ## 🚩 Benchmarking Results
 ![Screenshot from 2023-06-09 20-32-57](https://github.com/sudb97/intel-oneAPI/assets/42773775/28bc0404-0f66-4975-a19f-a9539bf74b2c)
