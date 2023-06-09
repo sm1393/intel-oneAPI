@@ -26,7 +26,7 @@
 
   
 ## Tech Stack: 
-   List Down all technologies used to Build the prototype **Clearly mentioning Intel® AI Analytics Toolkits, it's libraries and the SYCL/DCP++ Libraries used**
+   Technologies used to Build the prototype **Intel® AI Analytics Toolkits, and it's libraries**
    ![Screenshot from 2023-06-09 01-25-31](https://github.com/sudb97/intel-oneAPI/assets/42773775/f8a02538-83e5-443f-8f68-cfd40f6c5a25)
 
 
