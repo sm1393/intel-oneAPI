@@ -151,7 +151,7 @@ For BDD100K: (DataSets Used)
 ## 📜 References 
 > [**HybridNets: End-to-End Perception Network Paper Link**](https://arxiv.org/abs/2203.09035)
 
-## 📜 What I Learned:
+## 📜 What We Learned:
   1. Expansion of domain knowledge in deep learning based computer vision techniques like object detection and segmentation.<br>
   2. Usage of End2End Perception Network Hybridnet to do image and video inferencing for simultaneous object detection and segmentation.<br>
   3. Importance of Robustness in Autonomous Driving: Development of a robust algorithm that could handle all weather conditions, night time        conditions as evident by the results.<br>
