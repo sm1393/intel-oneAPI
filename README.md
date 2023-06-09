@@ -7,8 +7,8 @@
 
 <div align="center">
   
-[![PyTorch - Version](https://img.shields.io/badge/PYTORCH-1.10+-red?style=for-the-badge&logo=pytorch)](https://pytorch.org/get-started/locally/) 
-[![Python - Version](https://img.shields.io/badge/PYTHON-3.7+-red?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
+[![PyTorch - Version](https://img.shields.io/badge/PYTORCH-1.13+-red?style=for-the-badge&logo=pytorch)](https://pytorch.org/get-started/locally/) 
+[![Python - Version](https://img.shields.io/badge/PYTHON-3.7.2-red?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
 <br>
 </div>
 
