@@ -1,7 +1,8 @@
 # Intel-OneAPI
 
 #### Team Name - Momentum
-#### Problem Statement - Object Detection For Autonomous Vehicles
+#### Team Members - Akash Agrawal, GVS Mothish, Sudarshan Bandyopadhyay, Swapnil Mane
+#### Challenge Name - Object Detection For Autonomous Vehicles
 #### Team Leader Email - sudb97@gmail.com
 
 
@@ -140,6 +141,9 @@ For BDD100K: (DataSets Used)
 - [det_annot](https://drive.google.com/file/d/1QttvnPI1srmlHp86V-waD3Mn5lT9f4ky/view?usp=sharing)
 - [da_seg_annot](https://drive.google.com/file/d/1FDP7ojolsRu_1z1CXoWUousqeqOdmS68/view?usp=sharing)
 - [ll_seg_annot](https://drive.google.com/file/d/1jvuSeK-Oofs4OWPL_FiBnTlMYHEAQYUC/view?usp=sharing)
+
+## 🚩 Medium Article
+> [**Article Link**](https://medium.com/@akaagr10/towards-autonomy-building-a-robust-object-detection-and-segmentation-model-for-autonomous-vehicles-ddc86b1568a)
 
 ## 🚩 PPT and Demonstration
 > [**PPT and Demonstration Link**](https://drive.google.com/drive/folders/1EN99GaKKElWUFpHM6GZKaOoYYj4xqUr4?usp=drive_link)
