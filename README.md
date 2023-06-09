@@ -116,7 +116,7 @@ HybridNets
         └───val
 ```
 
-For BDD100K: 
+For BDD100K: (DataSets Used)
 - [imgs](https://bdd-data.berkeley.edu/)
 - [det_annot](https://drive.google.com/file/d/1QttvnPI1srmlHp86V-waD3Mn5lT9f4ky/view?usp=sharing)
 - [da_seg_annot](https://drive.google.com/file/d/1FDP7ojolsRu_1z1CXoWUousqeqOdmS68/view?usp=sharing)
