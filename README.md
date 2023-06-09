@@ -34,25 +34,25 @@
 ```bash
 HybridNets
 │   backbone.py                     # Model configuration
-|   export.py                       # UPDATED 10/2022: onnx weight with accompanying .npy anchors
+│   export.py                       # UPDATED 10/2022: onnx weight with accompanying .npy anchors
 │   hubconf.py                      # Pytorch Hub entrypoint
 │   hybridnets_test_images_old.py   # Image inference
-|   hybridnets_test_images.py       # Modified hybridnets_test to get inference time for a no of images
+│   hybridnets_test_images.py       # Modified hybridnets_test to get inference time for a no of images
 │   hybridnets_test_videos_old.py   # Video inference
-|   hybridnets_test_videos.py       # Modified hybridnets_test_videos to get inference for different length of videos
-|   speedup_test.py                 # Calculate 
+│   hybridnets_test_videos.py       # Modified hybridnets_test_videos to get inference for different length of videos
+│   speedup_test.py                 # Calculate 
 │   train.py                        # Train script
 │   train_ddp.py                    # DistributedDataParallel training (Multi GPUs)
 │   val.py                          # Validate script
 │   val_ddp.py                      # DistributedDataParralel validating (Multi GPUs)
-|   frameCount_vs_time_plot.py      # Plot framecount vs time taken to infer
-|   imageCount_vs_time_plot.py      # Plot imagecount vs time taken to infer
-|   speedup_test.py                 # Speedup test for comparison between with and without optimization
+│   frameCount_vs_time_plot.py      # Plot framecount vs time taken to infer
+│   imageCount_vs_time_plot.py      # Plot imagecount vs time taken to infer
+│   speedup_test.py                 # Speedup test for comparison between with and without optimization
 │
 ├───demo                            # Images and videos for testing inference
-|
+│
 ├───demo_results                    # Post processing results on test images and videos to validate the inference
-|
+│
 ├───data                            # Time record for inferences on different conditions
 │
 ├───plots                           # Comparison plots between inferences on different conditions
@@ -70,7 +70,7 @@ HybridNets
 │       bdd100k.yml                 # Project configuration
 │
 └───utils
-|   constants.py
+│   constants.py
 │   plot.py                         # Draw bounding box
 │   smp_metrics.py                  # https://github.com/qubvel/segmentation_models.pytorch/blob/master/segmentation_models_pytorch/metrics/functional.py
 │   utils.py                        # Various helper functions (preprocess, postprocess, eval...)
@@ -88,10 +88,10 @@ pip install -r requirements.txt
 curl --create-dirs -L -o weights/hybridnets.pth https://github.com/datvuthanh/HybridNets/releases/download/v1.0/hybridnets.pth
 
 # Image inference
-python3 hybridnets_test_plot.py --use_optimization True --speed_test True
+python3 hybridnets_test_images.py --source demo/images --output demo_result/images without_optimization --use_optimization False --enable_postprocessing True
 
 # Video inference
-python3 hybridnets_test_videos_plot.py --use_optimization True
+python3 hybridnets_test_videos.py --source demo/video --output demo_result/video --use_optimization False- --enable_postprocessing True
 
 # Result is saved in a new folder called demo_result
 ```
