@@ -14,7 +14,7 @@
 
 
 
-## 📜Prototype Brief:
+## 📜 Prototype Brief:
   Description:
   The model will be trained on image input which will be temporal in nature. Required data-preprocessing will be done using intel's oneDAL libraries. Further training will be done using HybridNet neural network Architecture with the intel's oneDNN pytorch optimization to perform faster training. Finally the real time inference will be achieved using the intel's oneDNN libraries which will provide mainly three outputs that are, object bounding box, object class and lane detection.This project is part of the Intel OneAPI Hackathon 2023, we have used HybridNet for tackling the object detection and Segmentation Problem. HybridNets is an end2end perception network for multi-tasks. Our work focused on traffic object detection, drivable area segmentation and lane detection.  HybridNets can run real-time on embedded systems, and obtains SOTA Object Detection, Lane Detection on BDD100K Dataset. 
   
@@ -30,7 +30,7 @@
    ![Screenshot from 2023-06-09 01-25-31](https://github.com/sudb97/intel-oneAPI/assets/42773775/f8a02538-83e5-443f-8f68-cfd40f6c5a25)
 
 
-### 🍞Project Structure
+## 🍞 Project Structure
 ```bash
 HybridNets
 │   backbone.py                     # Model configuration
@@ -127,5 +127,10 @@ For BDD100K:
 > [**HybridNets: End-to-End Perception Network Paper Link**](https://arxiv.org/abs/2203.09035)
 
 ## 📜 What I Learned:
-  -> Usage of End2End Perception Network Hybridnet to do image and video inferencing for simultaneous object detection and segmentation.
-  -> Incorporation of Intel oneAPI libraries oneDNN libraries.
+  -> Expansion of domain knowledge in deep learning based computer vision techniques like object detection and segmentation.
+  -> Usage of End2End Perception Network Hybridnet to do image and video inferencing for simultaneous object detection and segmentation.<br>
+  -> Importance of Robustness in Autonomous Driving: Development of a robust algorithm that could handle all weather conditions, night time conditions as evident by the          results.<br>
+  -> Incorporation of Intel oneAPI libraries oneDNN libraries.<br>
+  -> Learnt about Optimisation techniques for faster inferencing, specifically the libraries developed by Intel.<br>
+  
+  
