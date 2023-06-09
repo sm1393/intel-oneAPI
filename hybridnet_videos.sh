@@ -6,7 +6,7 @@ if [ -f video_with_optimization.txt ]; then
     rm video_with_optimization.txt
 fi
 
-output=$(python3 hybridnets_test_videos_plot.py --use_optimization True | grep "time")
+output=$(python3 hybridnets_test_videos.py --use_optimization True | grep "time")
 
 if [ -n "$output" ]; then
     echo "$output" >> video_with_optimization.txt
@@ -16,7 +16,7 @@ if [ -f video_without_optimization.txt ]; then
     rm video_without_optimization.txt
 fi
 
-output=$(python3 hybridnets_test_videos_plot.py | grep "time")
+output=$(python3 hybridnets_test_videos.py | grep "time")
 
 if [ -n "$output" ]; then
     echo "$output" >> video_without_optimization.txt

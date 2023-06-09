@@ -13,20 +13,27 @@ import os
 from torchvision import transforms
 import argparse
 from utils.constants import *
+#Library Added for intel Optimization
 import intel_extension_for_pytorch as ipex
+
+import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser('HybridNets: End-to-End Perception Network - DatVu')
 parser.add_argument('-p', '--project', type=str, default='bdd100k', help='Project file that contains parameters')
 parser.add_argument('-bb', '--backbone', type=str, help='Use timm to create another backbone replacing efficientnet. '
                                                         'https://github.com/rwightman/pytorch-image-models')
 parser.add_argument('-c', '--compound_coef', type=int, default=3, help='Coefficient of efficientnet backbone')
-parser.add_argument('--source', type=str, default='demo/video', help='The demo video folder')
-parser.add_argument('--output', type=str, default='demo_result', help='Output folder')
+parser.add_argument('--source', type=str, default='demo/video_benchmarking', help='The demo video folder')
+parser.add_argument('--output', type=str, default='demo_result/video_benchmarking', help='Output folder')
 parser.add_argument('-w', '--load_weights', type=str, default='weights/hybridnets.pth')
 parser.add_argument('--conf_thresh', type=restricted_float, default='0.25')
 parser.add_argument('--iou_thresh', type=restricted_float, default='0.3')
 parser.add_argument('--cuda', type=boolean_string, default=False)
 parser.add_argument('--float16', type=boolean_string, default=True, help="Use float16 for faster inference")
+
+parser.add_argument('--use_optimization', type = bool, default = False, help = "Use Optimization")
+parser.add_argument('--enable_postprocessing', type = bool, default = False, help = "Enable postprocessing")
+
 args = parser.parse_args()
 
 params = Params(f'projects/{args.project}.yml')
@@ -72,7 +79,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     normalize,
 ])
-# print(x.shape)
+
 weight = torch.load(weight, map_location='cuda' if use_cuda else 'cpu')
 weight_last_layer_seg = weight.get('model', weight)['segmentation_head.0.weight']
 if weight_last_layer_seg.size(0) == 1:
@@ -96,13 +103,10 @@ model.load_state_dict(weight.get('model', weight))
 model.requires_grad_(False)
 model.eval()
 
-<<<<<<< HEAD
+
 #Added for intel optimization
-#model = ipex.optimize(model)
-=======
-#Code line added for intel optimized inference(Uncomment to use)
-model = ipex.optimize(model)
->>>>>>> f97d1a2bb5b05bfdfa29e67838b374cacc710443
+if args.use_optimization:
+    model = ipex.optimize(model)
 
 if use_cuda:
     model = model.cuda()
@@ -111,14 +115,17 @@ if use_cuda:
 
 regressBoxes = BBoxTransform()
 clipBoxes = ClipBoxes()
+
+timeArray = []
+frameCountArray = []
+
 for video_index, video_src in enumerate(video_srcs):
     video_out = f'{output}/{video_index}.mp4'
     cap = cv2.VideoCapture(video_src)
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out_stream = cv2.VideoWriter(video_out, fourcc, 24.0,
-                                 (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
-                                  int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
+                                 (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))))
     t1 = time.time()
     frame_count = 0
     while True:
@@ -148,46 +155,56 @@ for video_index, video_src in enumerate(video_srcs):
             features, regression, classification, anchors, seg = model(x)
 
             seg = seg[:, :, int(pad[1]):int(h+pad[1]), int(pad[0]):int(w+pad[0])]
-            # (1, C, W, H) -> (1, W, H)
-            if seg_mode == BINARY_MODE:
-                seg_mask = torch.where(seg >= 0, 1, 0)
-                seg_mask.squeeze_(1)
-            else:
-                _, seg_mask = torch.max(seg, 1)
-            # (1, W, H) -> (W, H)
-            seg_mask_ = seg_mask[0].squeeze().cpu().numpy()
-            seg_mask_ = cv2.resize(seg_mask_, dsize=(w0, h0), interpolation=cv2.INTER_NEAREST)
-            color_seg = np.zeros((seg_mask_.shape[0], seg_mask_.shape[1], 3), dtype=np.uint8)
-            for index, seg_class in enumerate(params.seg_list):
-                color_seg[seg_mask_ == index+1] = color_list_seg[seg_class]
-            color_seg = color_seg[..., ::-1]  # RGB -> BGR
-            # cv2.imwrite('seg_only_{}.jpg'.format(i), color_seg)
+            if args.enable_postprocessing:
+                # (1, C, W, H) -> (1, W, H)
+                if seg_mode == BINARY_MODE:
+                    seg_mask = torch.where(seg >= 0, 1, 0)
+                    seg_mask.squeeze_(1)
+                else:
+                    _, seg_mask = torch.max(seg, 1)
+                # (1, W, H) -> (W, H)
+                seg_mask_ = seg_mask[0].squeeze().cpu().numpy()
+                seg_mask_ = cv2.resize(seg_mask_, dsize=(w0, h0), interpolation=cv2.INTER_NEAREST)
+                color_seg = np.zeros((seg_mask_.shape[0], seg_mask_.shape[1], 3), dtype=np.uint8)
+                for index, seg_class in enumerate(params.seg_list):
+                    color_seg[seg_mask_ == index+1] = color_list_seg[seg_class]
+                color_seg = color_seg[..., ::-1]  # RGB -> BGR
+                # cv2.imwrite('seg_only_{}.jpg'.format(i), color_seg)
 
-            color_mask = np.mean(color_seg, 2)  # (H, W, C) -> (H, W), check if any pixel is not background
-            frame[color_mask != 0] = frame[color_mask != 0] * 0.5 + color_seg[color_mask != 0] * 0.5
-            frame = frame.astype(np.uint8)
-            cv2.imwrite('seg_{}.jpg'.format(i), ori_img)
+                color_mask = np.mean(color_seg, 2)  # (H, W, C) -> (H, W), check if any pixel is not background
+                frame[color_mask != 0] = frame[color_mask != 0] * 0.5 + color_seg[color_mask != 0] * 0.5
+                frame = frame.astype(np.uint8)
+                # cv2.imwrite('seg_{}.jpg'.format(i), ori_img)
 
             out = postprocess(x,
                               anchors, regression, classification,
                               regressBoxes, clipBoxes,
                               threshold, iou_threshold)
             out = out[0]
-            out['rois'] = scale_coords(frame[:2], out['rois'], shapes[0], shapes[1])
-            for j in range(len(out['rois'])):
-                x1, y1, x2, y2 = out['rois'][j].astype(int)
-                obj = obj_list[out['class_ids'][j]]
-                score = float(out['scores'][j])
-                plot_one_box(frame, [x1, y1, x2, y2], label=obj, score=score,
-                             color=color_list[get_index_label(obj, obj_list)])
-            out_stream.write(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+            
+            if args.enable_postprocessing:
+                out['rois'] = scale_coords(frame[:2], out['rois'], shapes[0], shapes[1])
+                for j in range(len(out['rois'])):
+                    x1, y1, x2, y2 = out['rois'][j].astype(int)
+                    obj = obj_list[out['class_ids'][j]]
+                    score = float(out['scores'][j])
+                    plot_one_box(frame, [x1, y1, x2, y2], label=obj, score=score,
+                                 color=color_list[get_index_label(obj, obj_list)])
+                out_stream.write(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                
             frame_count += 1
+            if args.enable_postprocessing:
+                if frame_count % 20 == 0:
+                    intTime = time.time()
+                    timeArray.append(intTime - t1)
+                    print("time", intTime - t1)
+                    frameCountArray.append(frame_count)
 
     t2 = time.time()
     print("video: {}".format(video_src))
     print("frame: {}".format(frame_count))
     print("second: {}".format(t2-t1))
     print("fps: {}".format(frame_count/(t2-t1)))
-
+    
     cap.release()
     out_stream.release()
