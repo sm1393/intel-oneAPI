@@ -36,10 +36,10 @@ HybridNets
 │   backbone.py                     # Model configuration
 |   export.py                       # UPDATED 10/2022: onnx weight with accompanying .npy anchors
 │   hubconf.py                      # Pytorch Hub entrypoint
-│   hybridnets_test.py              # Image inference
-|   hybridnets_test_plot.py         # Modified hybridnets_test to get inference time for a no of images
-│   hybridnets_test_videos.py       # Video inference
-|   hybridnets_test_videos_plot.py  # Modified hybridnets_test_videos to get inference for different length of videos
+│   hybridnets_test_images_old.py   # Image inference
+|   hybridnets_test_images.py       # Modified hybridnets_test to get inference time for a no of images
+│   hybridnets_test_videos_old.py   # Video inference
+|   hybridnets_test_videos.py       # Modified hybridnets_test_videos to get inference for different length of videos
 |   speedup_test.py                 # Calculate 
 │   train.py                        # Train script
 │   train_ddp.py                    # DistributedDataParallel training (Multi GPUs)
@@ -47,7 +47,12 @@ HybridNets
 │   val_ddp.py                      # DistributedDataParralel validating (Multi GPUs)
 |   frameCount_vs_time_plot.py      # Plot framecount vs time taken to infer
 |   imageCount_vs_time_plot.py      # Plot imagecount vs time taken to infer
+|   speedup_test.py                 # Speedup test for comparison between with and without optimization
 │
+├───demo                            # Images and videos for testing inference
+|
+├───demo_results                    # Post processing results on test images and videos to validate the inference
+|
 ├───data                            # Time record for inferences on different conditions
 │
 ├───plots                           # Comparison plots between inferences on different conditions
@@ -63,8 +68,6 @@ HybridNets
 │
 ├───projects
 │       bdd100k.yml                 # Project configuration
-│
-│       ...
 │
 └───utils
 |   constants.py
