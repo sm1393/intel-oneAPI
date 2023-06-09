@@ -24,7 +24,11 @@ The model is trained on image input which will be temporal in nature. Further tr
 ![Screenshot from 2023-06-09 01-45-27](https://github.com/sudb97/intel-oneAPI/assets/42773775/1fe84198-50a8-44f0-8fdb-1304d2bac493)
 
 
+## 🚩 Medium Article
+> [**Article Link**](https://medium.com/@akaagr10/towards-autonomy-building-a-robust-object-detection-and-segmentation-model-for-autonomous-vehicles-ddc86b1568a)
 
+## 🚩 PPT and Demonstration
+> [**PPT and Demonstration Link**](https://drive.google.com/drive/folders/1EN99GaKKElWUFpHM6GZKaOoYYj4xqUr4?usp=drive_link)
 
   
 ## 🍞 Tech Stack: 
@@ -141,12 +145,6 @@ For BDD100K: (DataSets Used)
 - [det_annot](https://drive.google.com/file/d/1QttvnPI1srmlHp86V-waD3Mn5lT9f4ky/view?usp=sharing)
 - [da_seg_annot](https://drive.google.com/file/d/1FDP7ojolsRu_1z1CXoWUousqeqOdmS68/view?usp=sharing)
 - [ll_seg_annot](https://drive.google.com/file/d/1jvuSeK-Oofs4OWPL_FiBnTlMYHEAQYUC/view?usp=sharing)
-
-## 🚩 Medium Article
-> [**Article Link**](https://medium.com/@akaagr10/towards-autonomy-building-a-robust-object-detection-and-segmentation-model-for-autonomous-vehicles-ddc86b1568a)
-
-## 🚩 PPT and Demonstration
-> [**PPT and Demonstration Link**](https://drive.google.com/drive/folders/1EN99GaKKElWUFpHM6GZKaOoYYj4xqUr4?usp=drive_link)
 
 ## 🚩 Benchmarking Results
 ![Screenshot from 2023-06-09 20-32-57](https://github.com/sudb97/intel-oneAPI/assets/42773775/28bc0404-0f66-4975-a19f-a9539bf74b2c)
