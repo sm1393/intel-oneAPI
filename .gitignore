@@ -3,6 +3,7 @@
 *.json
 # *.png
 *.pth
+*.tflite
 
 events.out.tfevents.*
 # Byte-compiled / optimized / DLL files
