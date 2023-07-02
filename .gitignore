@@ -1,3 +1,6 @@
+bdd100k/
+models/
+
 *.pyc
 #*.jpg
 *.json
