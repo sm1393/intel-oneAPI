@@ -5,10 +5,23 @@ For autonomous vehicles, object detection is a crucial task that requires a real
 Source: https://www.flickr.com/photos/32413914@N00/1475776461/
 
 
-# Installation
-```
-pip install -r requirements
+### 🍞 Installation
+The project was developed with [**Python>=3.7**](https://www.python.org/downloads/) and [**Pytorch>=1.10**](https://pytorch.org/get-started/locally/).
+```bash
+# Creating Anaconda Virtual Environment Inside Project Folder
+conda create -p venv python==3.7.2 -y
 
+# Activating the created Virtual Environment
+conda activate venv/
+
+#Installing Dependencies
+pip install -r requirements.txt
+
+#Installing Pytorch for CPU
+pip install torch==1.13.1+cpu torchvision==0.14.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
+
+#Installing Intel Pytorch Optimisation Ipex Dependency
+pip install intel_extension_for_pytorch==1.13.100 -f https://developer.intel.com/ipex-whl-stable-cpu
 ```
 
 # Pretrained model
