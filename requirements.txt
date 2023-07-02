@@ -17,3 +17,8 @@ webcolors>=1.11.1
 urllib3==1.26.6 
 Flask
 modin[all]
+opencv-python
+scikit-image
+pillow
+pixellib
+yolov5
