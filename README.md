@@ -1,20 +1,15 @@
-# Ultrafast Lane Detection Inference Pytorch
-Example scripts for the detection of lanes using the [ultra fast lane detection model](https://github.com/cfzd/Ultra-Fast-Lane-Detection) in Pytorch.
+# Autonomous Object and Lane Detection and Depth Estimation Inference Pytorch
+For autonomous vehicles, object detection is a crucial task that requires a real-time deep-learning model capable of accurately navigating, considering all possible objects like pedestrians, vehicles, traffic signs, signals, etc., lanes, and identifying distance to nearby objects.​
 
 ![!Ultra fast lane detection](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-/blob/main/doc/img/detected%20lanes.jpg)
 Source: https://www.flickr.com/photos/32413914@N00/1475776461/
 
-# Requirements
 
- * **OpenCV**, **Scikit-learn** and **pytorch**. **pafy** and **youtube-dl** are required for youtube video inference. 
- 
 # Installation
 ```
 pip install -r requirements
-pip install pafy youtube-dl
 
 ```
-**Pytorch:** Check the [Pytorch website](https://pytorch.org/) to find the best method to install Pytorch in your computer.
 
 # Pretrained model
 Download the pretrained model from the [original repository](https://github.com/cfzd/Ultra-Fast-Lane-Detection) and save it into the **[models](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-/tree/main/models)** folder. 
@@ -24,7 +19,7 @@ Download the pretrained model from the [original repository](https://github.com/
  * **Input**: RGB image of size 1280 x 720 pixels.
  * **Output**: Keypoints for a maximum of 4 lanes (left-most lane, left lane, right lane, and right-most lane).
  
-# Examples
+# Object Detection and Lane Detection
 
  * **Image inference**:
  
@@ -43,7 +38,26 @@ Download the pretrained model from the [original repository](https://github.com/
  ```
  python videoLaneDetection.py
  ```
+ # Depth Estimation
+
+ * **Image inference**:
  
+ ```
+ python imageDepthEstimation.py 
+ ```
+ 
+  * **Webcam inference**:
+ 
+ ```
+ python webcamDepthDetection.py
+ ```
+ 
+  * **Video inference**:
+ 
+ ```
+ python videoDepthDetection.py
+ ```
+
  # [Inference video Example](https://youtu.be/0Owf6gef1Ew) 
  ![!Ultrafast lane detection on video](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-/blob/main/doc/img/laneDetection.gif)
  
