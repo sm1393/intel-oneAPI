@@ -47,4 +47,4 @@ if uploaded_file:
             text = f"{class_label}: {confidence_percent:.2f} %"
             cv2.putText(image, text, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-    st.image(image, caption='Image')
+    st.image(image, caption='Inference')

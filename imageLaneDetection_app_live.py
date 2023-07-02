@@ -26,8 +26,8 @@ model, lane_detector = loadModel()
 def makeInference(_image):
     st.image(_image, caption='Image')
     image = np.array(_image)
-    output_img = lane_detector.detect_lanes(image)
-    image = cv2.cvtColor(output_img , cv2.COLOR_BGR2RGB)
+    # output_img = lane_detector.detect_lanes(image)
+    # image = cv2.cvtColor(output_img , cv2.COLOR_BGR2RGB)
     results = model(image)
     boxes = results.pandas().xyxy[0]
     class_labels = results.pandas().xyxy[0]['name']
