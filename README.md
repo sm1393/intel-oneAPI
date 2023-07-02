@@ -71,6 +71,20 @@ Download the pretrained model from the [original repository](https://github.com/
  python videoDepthDetection.py
  ```
 
+# Object and Lane Detection and Depth Estimation with streamlit
+
+ * **Image inference**:
+ 
+ ```
+ python multiImageLaneDepthDetection_app.py
+ ```
+ 
+  * **Webcam inference**:
+ 
+ ```
+ python imageLaneDetection_app_live.py
+ ```
+
  # [Inference video Example](https://youtu.be/0Owf6gef1Ew) 
  ![!Ultrafast lane detection on video](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-/blob/main/doc/img/laneDetection.gif)
  
