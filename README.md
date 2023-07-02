@@ -1,8 +1,7 @@
 # Autonomous Object and Lane Detection and Depth Estimation Inference Pytorch
 For autonomous vehicles, object detection is a crucial task that requires a real-time deep-learning model capable of accurately navigating, considering all possible objects like pedestrians, vehicles, traffic signs, signals, etc., lanes, and identifying distance to nearby objects.​
 
-![!Ultra fast lane detection](https://github.com/ibaiGorordo/Ultrafast-Lane-Detection-Inference-Pytorch-/blob/main/doc/img/detected%20lanes.jpg)
-Source: https://www.flickr.com/photos/32413914@N00/1475776461/
+![!Autonomous Object and Lane Detection and Depth Estimation](https://github.com/sudb97/intel-oneAPI/blob/cascadedepth/output2.jpg)
 
 
 ### 🍞 Installation
