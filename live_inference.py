@@ -11,6 +11,8 @@ from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
 from MidasDepthEstimation.midasDepthEstimator import midasDepthEstimator
 import matplotlib.pyplot as plt
 
+import intel_extension_for_pytorch as ipex
+
 class_names = ['train','hot dog','skis','snowboard', 'sports ball','baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'pizza', 'donut', 'cake','teddy bear', 'hair drier', 'toothbrush']  # Add more class names as per your requirement to remove
 global _objectDetection
 
@@ -21,12 +23,32 @@ def loadModel():
     depthEstimator = midasDepthEstimator()
     return objectDetector, lane_detector, depthEstimator
 
+@st.cache_resource
+def loadOptimizedModel():
+    objectDetector = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+    objectDetector.eval()
+    objectDetector = ipex.optimize(objectDetector)
+    lane_detector = UltrafastLaneDetector("models/tusimple_18.pth", ModelType.TUSIMPLE, False)
+    # lane_detector.eval()
+    # lane_detector = ipex.optimize(lane_detector)
+    depthEstimator = midasDepthEstimator()
+    # depthEstimator.eval()
+    # depthEstimator = ipex.optimize(depthEstimator)
+    return objectDetector, lane_detector, depthEstimator
+
 objectDetector, lane_detector, depthEstimator = loadModel()
+optimizedObjectDetector, optimizedLane_detector, optimizedDepthEstimator = loadOptimizedModel()
 
 def detectObject(_image):
-    t1 = time.time()
-    results = objectDetector(_image)
-    t2 = time.time()
+    if _useOptimization:
+        t1 = time.time()
+        with torch.no_grad():
+            results = optimizedObjectDetector(_image)
+        t2 = time.time()
+    else:
+        t1 = time.time()
+        results = objectDetector(_image)
+        t2 = time.time()
     boxes = results.pandas().xyxy[0]
     for _, row in boxes.iterrows():
         x1, y1, x2, y2 = row['xmin'], row['ymin'], row['xmax'], row['ymax']
@@ -40,15 +62,27 @@ def detectObject(_image):
     return _image, t2-t1
 
 def detectLane(_image):
-    t1 = time.time()
-    results = lane_detector.detect_lanes(_image)
-    t2 = time.time()
+    if _useOptimization:
+        t1 = time.time()
+        with torch.no_grad():
+            results = optimizedLane_detector.detect_lanes(_image)
+        t2 = time.time()
+    else:
+        t1 = time.time()
+        results = lane_detector.detect_lanes(_image)
+        t2 = time.time()
     return cv2.cvtColor(results, cv2.COLOR_BGR2RGB), t2-t1
 
 def estimateDepth(_image):
-    t1 = time.time()
-    colorDepth = depthEstimator.estimateDepth(_image)
-    t2 = time.time()
+    if _useOptimization:
+        t1 = time.time()
+        with torch.no_grad():
+            colorDepth = optimizedDepthEstimator.estimateDepth(_image)
+        t2 = time.time()
+    else:
+        t1 = time.time()
+        colorDepth = depthEstimator.estimateDepth(_image)
+        t2 = time.time()
     combinedImg = cv2.addWeighted(_image,0.7,colorDepth,0.6,0)
     return np.hstack((_image, colorDepth, combinedImg)), t2 - t1
 
@@ -71,6 +105,7 @@ def video_frame_callback(frame):
 
 webrtc_streamer(key = "example", video_frame_callback = video_frame_callback)
 
+_useOptimization = st.checkbox("Use optimization")
 _objectDetection = st.checkbox("Object detection")
 _laneDetection = st.checkbox("Lane detection")
 _depthEstimation = st.checkbox("Depth detection")
