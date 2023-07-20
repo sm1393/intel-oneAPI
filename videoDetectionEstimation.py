@@ -1,4 +1,6 @@
+import streamlit as st
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
+import tempfile
 import av
 import streamlit as st
 import cv2
@@ -13,6 +15,9 @@ import matplotlib.pyplot as plt
 
 import intel_extension_for_pytorch as ipex
 
+
+f = st.file_uploader("Upload file")
+
 global class_names, _useOptimization, _objectDetection, _laneDetection, _depthEstimation
 class_names = ['train','hot dog','skis','snowboard', 'sports ball','baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'pizza', 'donut', 'cake','teddy bear', 'hair drier', 'toothbrush']  # Add more class names as per your requirement to remove
 _useOptimization = st.checkbox("Use optimization")
@@ -20,9 +25,7 @@ _objectDetection = st.checkbox("Object detection")
 _laneDetection = st.checkbox("Lane detection")
 _depthEstimation = st.checkbox("Depth detection")
 
-
 class VideoProcessor:
-
     @st.cache_resource
     def loadModel():
         objectDetector = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
@@ -94,31 +97,32 @@ class VideoProcessor:
         return np.hstack((_image, colorDepth, combinedImg)), t2 - t1
 
     def recv(self, frame):
-        image = frame.to_ndarray(format="bgr24")
-        ouputImage = image
+        # image = frame.to_ndarray(format="bgr24")
+        ouputImage = frame
         if _objectDetection:
-            ouputImage, tact_time = self.detectObject(image)
+            ouputImage, tact_time = self.detectObject(frame)
             fpsText = f'{1 / tact_time:.2f} FPS'
             cv2.putText(ouputImage, fpsText, (0,22), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
         if _laneDetection:
-            ouputImage, tact_time = self.detectLane(image)
+            ouputImage, tact_time = self.detectLane(frame)
             fpsText = f'{1 / tact_time:.2f} FPS'
             cv2.putText(ouputImage, fpsText, (0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
         if _depthEstimation:
-            ouputImage, tact_time = self.estimateDepth(image)
+            ouputImage, tact_time = self.estimateDepth(frame)
             fpsText = f'{1 / tact_time:.2f} FPS'
             cv2.putText(ouputImage, fpsText, (0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
-        return av.VideoFrame.from_ndarray(ouputImage, format="bgr24")
+        return ouputImage
 
-RTC_CONFIGURATION = RTCConfiguration(
-    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
-)
-
-webrtc_ctx = webrtc_streamer(
-    key="WYH",
-    mode=WebRtcMode.SENDRECV,
-    rtc_configuration=RTC_CONFIGURATION,
-    media_stream_constraints={"video": True, "audio": False},
-    video_processor_factory=VideoProcessor,
-    async_processing=True,
-)
+if f:
+    tfile = tempfile.NamedTemporaryFile(delete=False) 
+    tfile.write(f.read())
+    vf = cv2.VideoCapture(tfile.name)
+    stframe = st.empty()
+    vp = VideoProcessor()
+    while vf.isOpened():
+        ret, frame = vf.read()
+        if not ret:
+            print("Can't receive frame (stream end?). Exiting ...")
+            break
+        stframe.image(vp.recv(frame))
+    vf.release()
