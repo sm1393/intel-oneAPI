@@ -3,6 +3,7 @@
 *.json
 # *.png
 *.pth
+*.pt
 *.tflite
 
 events.out.tfevents.*

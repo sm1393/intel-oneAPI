@@ -4,6 +4,8 @@ efficientnet_pytorch>=0.7.1
 matplotlib>=3.2.2
 numpy>=1.21.2
 opencv_python_headless>=4.5.5.62
+opencv-python
+opencv_contrib_python
 prefetch_generator>=1.0.1
 pretrainedmodels>=0.7.4
 PyYAML>=3.13
@@ -18,12 +20,12 @@ webcolors>=1.11.1
 urllib3==1.26.6 
 Flask
 modin[all]
-opencv-python
 scikit-image
 pillow
 pixellib
 yolov5
 streamlit
-streamlit-webrtc==0.36.0
+streamlit_webrtc
 tensorflow
 tflite_runtime
+av
