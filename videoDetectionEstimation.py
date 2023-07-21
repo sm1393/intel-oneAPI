@@ -20,10 +20,19 @@ f = st.file_uploader("Upload file")
 
 global class_names, _useOptimization, _objectDetection, _laneDetection, _depthEstimation
 class_names = ['train','hot dog','skis','snowboard', 'sports ball','baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'pizza', 'donut', 'cake','teddy bear', 'hair drier', 'toothbrush']  # Add more class names as per your requirement to remove
-_useOptimization = st.checkbox("Use optimization")
-_objectDetection = st.checkbox("Object detection")
-_laneDetection = st.checkbox("Lane detection")
-_depthEstimation = st.checkbox("Depth detection")
+checks = st.columns(4)
+with checks[0]:
+    _useOptimization = st.checkbox('Use optimization')
+with checks[1]:
+    _objectDetection = st.checkbox('Object detection')
+with checks[2]:
+    _laneDetection = st.checkbox('Lane detection')
+with checks[3]:
+    _depthEstimation = st.checkbox('Depth detection')
+# _useOptimization = st.checkbox("Use optimization")
+# _objectDetection = st.checkbox("Object detection")
+# _laneDetection = st.checkbox("Lane detection")
+# _depthEstimation = st.checkbox("Depth detection")
 
 class VideoProcessor:
     @st.cache_resource
@@ -94,7 +103,8 @@ class VideoProcessor:
             colorDepth = self.depthEstimator.estimateDepth(_image)
             t2 = time.time()
         combinedImg = cv2.addWeighted(_image,0.7,colorDepth,0.6,0)
-        return np.hstack((_image, colorDepth, combinedImg)), t2 - t1
+        # return np.hstack((_image, colorDepth, combinedImg)), t2 - t1
+        return np.hstack((_image, colorDepth)), t2 - t1
 
     def recv(self, frame):
         # image = frame.to_ndarray(format="bgr24")

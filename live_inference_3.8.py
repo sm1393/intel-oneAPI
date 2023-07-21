@@ -10,7 +10,6 @@ import time
 from ultrafastLaneDetector import UltrafastLaneDetector, ModelType
 from MidasDepthEstimation.midasDepthEstimator import midasDepthEstimator
 import matplotlib.pyplot as plt
-
 import intel_extension_for_pytorch as ipex
 
 global class_names, _useOptimization, _objectDetection, _laneDetection, _depthEstimation
@@ -20,9 +19,7 @@ _objectDetection = st.checkbox("Object detection")
 _laneDetection = st.checkbox("Lane detection")
 _depthEstimation = st.checkbox("Depth detection")
 
-
 class VideoProcessor:
-
     @st.cache_resource
     def loadModel():
         objectDetector = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
