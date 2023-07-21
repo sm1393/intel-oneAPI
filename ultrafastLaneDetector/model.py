@@ -85,9 +85,9 @@ class parsingNet(torch.nn.Module):
         else:
             aux_seg = None
 
-        fea = self.pool(fea).view(-1, 1800)
+        fea = self.pool(fea).reshape(-1, 1800)
 
-        group_cls = self.cls(fea).view(-1, *self.cls_dim)
+        group_cls = self.cls(fea).reshape(-1, *self.cls_dim)
 
         if self.use_aux:
             return group_cls, aux_seg
