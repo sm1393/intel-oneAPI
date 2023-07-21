@@ -52,21 +52,21 @@ class ModelConfig():
 
 class UltrafastLaneDetector():
 
-	def __init__(self, model_path, model_type=ModelType.TUSIMPLE, use_gpu=False):
-
+	def __init__(self, model_path, model_type=ModelType.TUSIMPLE, use_gpu=False, useOptimization=False):
+		self.useOptimization = useOptimization
 		self.use_gpu = use_gpu
 
 		# Load model configuration based on the model type
 		self.cfg = ModelConfig(model_type)
 
 		# Initialize model
-		self.model = self.initialize_model(model_path, self.cfg, use_gpu)
+		self.model = self.initialize_model(model_path, self.cfg, use_gpu, self.useOptimization)
 
 		# Initialize image transformation
 		self.img_transform = self.initialize_image_transform()
 
 	@staticmethod
-	def initialize_model(model_path, cfg, use_gpu):
+	def initialize_model(model_path, cfg, use_gpu, useOptimization):
 
 		# Load the model architecture
 		net = parsingNet(pretrained = False, backbone='18', cls_dim = (cfg.griding_num+1,cfg.cls_num_per_lane,4),
@@ -93,8 +93,9 @@ class UltrafastLaneDetector():
 
 		# Load the weights into the model
 		net.load_state_dict(compatible_state_dict, strict=False)
-		net.eval()
-		#net = ipex.optimize(net)
+		if useOptimization:
+			net.eval()
+			net = ipex.optimize(net)
 		
 
 		return net

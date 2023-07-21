@@ -14,16 +14,21 @@ import intel_extension_for_pytorch as ipex
 
 global class_names, _useOptimization, _objectDetection, _laneDetection, _depthEstimation
 class_names = ['train','hot dog','skis','snowboard', 'sports ball','baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'pizza', 'donut', 'cake','teddy bear', 'hair drier', 'toothbrush']  # Add more class names as per your requirement to remove
-_useOptimization = st.checkbox("Use optimization")
-_objectDetection = st.checkbox("Object detection")
-_laneDetection = st.checkbox("Lane detection")
-_depthEstimation = st.checkbox("Depth detection")
+checks = st.columns(4)
+with checks[0]:
+    _useOptimization = st.checkbox('Use optimization')
+with checks[1]:
+    _objectDetection = st.checkbox('Object detection')
+with checks[2]:
+    _laneDetection = st.checkbox('Lane detection')
+with checks[3]:
+    _depthEstimation = st.checkbox('Depth detection')
 
 class VideoProcessor:
     @st.cache_resource
     def loadModel():
         objectDetector = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
-        lane_detector = UltrafastLaneDetector("models/tusimple_18.pth", ModelType.TUSIMPLE, False)
+        lane_detector = UltrafastLaneDetector("models/tusimple_18.pth", ModelType.TUSIMPLE, False, False)
         depthEstimator = midasDepthEstimator()
         return objectDetector, lane_detector, depthEstimator
 
@@ -32,12 +37,8 @@ class VideoProcessor:
         objectDetector = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
         objectDetector.eval()
         objectDetector = ipex.optimize(objectDetector)
-        lane_detector = UltrafastLaneDetector("models/tusimple_18.pth", ModelType.TUSIMPLE, False)
-        # lane_detector.eval()
-        # lane_detector = ipex.optimize(lane_detector)
+        lane_detector = UltrafastLaneDetector("models/tusimple_18.pth", ModelType.TUSIMPLE, False, True)
         depthEstimator = midasDepthEstimator()
-        # depthEstimator.eval()
-        # depthEstimator = ipex.optimize(depthEstimator)
         return objectDetector, lane_detector, depthEstimator
 
     objectDetector, lane_detector, depthEstimator = loadModel()
