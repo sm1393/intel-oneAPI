@@ -146,9 +146,11 @@ if f:
             print("Can't receive frame (stream end?). Exiting ...")
             break
         processedFrame = vp.recv(frame)
-        stframe.image(processedFrame)
+        cv2.imwrite("/home/ashwin/intel-oneAPI/videoCreator/" + str(frameCount) + ".png", processedFrame)
         output_video.write(processedFrame)
+        stframe.image(processedFrame)
         if frameCount >= videoLength:
+            output_video.release()
             vf.release()
             break
         my_bar.progress(int(100*frameCount/videoLength) + 1)
