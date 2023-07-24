@@ -18,9 +18,10 @@ import intel_extension_for_pytorch as ipex
 
 f = st.file_uploader("Upload file")
 
-global class_names, _useOptimization, _objectDetection, _laneDetection, _depthEstimation
+global class_names, _useOptimization, _objectDetection, _laneDetection, _objectAndLaneDetection, _depthEstimation
 class_names = ['train','hot dog','skis','snowboard', 'sports ball','baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'pizza', 'donut', 'cake','teddy bear', 'hair drier', 'toothbrush']  # Add more class names as per your requirement to remove
-checks = st.columns(4)
+checks = st.columns(5)
+my_bar = st.progress(0)
 with checks[0]:
     _useOptimization = st.checkbox('Use optimization')
 with checks[1]:
@@ -28,6 +29,8 @@ with checks[1]:
 with checks[2]:
     _laneDetection = st.checkbox('Lane detection')
 with checks[3]:
+    _objectAndLaneDetection = st.checkbox('Obstacles and Lane detection')
+with checks[4]:
     _depthEstimation = st.checkbox('Depth detection')
 
 class VideoProcessor:
@@ -101,14 +104,20 @@ class VideoProcessor:
     def recv(self, frame):
         # image = frame.to_ndarray(format="bgr24")
         ouputImage = frame
-        if _objectDetection:
-            ouputImage, tact_time = self.detectObject(frame)
-            fpsText = f'{1 / tact_time:.2f} FPS'
-            cv2.putText(ouputImage, fpsText, (0,22), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-        if _laneDetection:
-            ouputImage, tact_time = self.detectLane(frame)
-            fpsText = f'{1 / tact_time:.2f} FPS'
-            cv2.putText(ouputImage, fpsText, (0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+        if _objectDetection or _objectAndLaneDetection:
+            ouputImage, tact_time1 = self.detectObject(frame)
+            fpsText = f'{1 / tact_time1:.2f} FPS'
+            if not _objectAndLaneDetection:
+                cv2.putText(ouputImage, fpsText, (0,22), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        if _laneDetection or _objectAndLaneDetection:
+            ouputImage, tact_time2 = self.detectLane(frame)
+            fpsText = f'{1 / tact_time2:.2f} FPS'
+            if not _objectAndLaneDetection:
+                cv2.putText(ouputImage, fpsText, (0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+        if _objectAndLaneDetection:
+           tact_time = tact_time1 + tact_time2
+           fpsText = f'{1 / tact_time:.2f} FPS'
+        #    cv2.putText(ouputImage, fpsText, (0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
         if _depthEstimation:
             ouputImage, tact_time = self.estimateDepth(frame)
             fpsText = f'{1 / tact_time:.2f} FPS'
@@ -119,12 +128,27 @@ if f:
     tfile = tempfile.NamedTemporaryFile(delete=False) 
     tfile.write(f.read())
     vf = cv2.VideoCapture(tfile.name)
+    output_file = 'output_video.mp4'
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    videoLength = int(vf.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = 30.0
+    width = int(vf.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(vf.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    output_video = cv2.VideoWriter(output_file, fourcc, fps, (width, height))
+
     stframe = st.empty()
     vp = VideoProcessor()
+    frameCount = 0
     while vf.isOpened():
         ret, frame = vf.read()
+        frameCount += 1
         if not ret:
             print("Can't receive frame (stream end?). Exiting ...")
             break
-        stframe.image(vp.recv(frame))
-    vf.release()
+        processedFrame = vp.recv(frame)
+        stframe.image(processedFrame)
+        output_video.write(processedFrame)
+        if frameCount >= videoLength:
+            vf.release()
+            break
+        my_bar.progress(int(100*frameCount/videoLength) + 1)

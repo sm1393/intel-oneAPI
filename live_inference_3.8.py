@@ -12,9 +12,9 @@ from MidasDepthEstimation.midasDepthEstimator import midasDepthEstimator
 import matplotlib.pyplot as plt
 import intel_extension_for_pytorch as ipex
 
-global class_names, _useOptimization, _objectDetection, _laneDetection, _depthEstimation
+global class_names, _useOptimization, _objectDetection, _laneDetection, _objectAndLaneDetection, _depthEstimation
 class_names = ['train','hot dog','skis','snowboard', 'sports ball','baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'pizza', 'donut', 'cake','teddy bear', 'hair drier', 'toothbrush']  # Add more class names as per your requirement to remove
-checks = st.columns(4)
+checks = st.columns(5)
 with checks[0]:
     _useOptimization = st.checkbox('Use optimization')
 with checks[1]:
@@ -22,6 +22,8 @@ with checks[1]:
 with checks[2]:
     _laneDetection = st.checkbox('Lane detection')
 with checks[3]:
+    _objectAndLaneDetection = st.checkbox('Obstacles and Lane detection')
+with checks[4]:
     _depthEstimation = st.checkbox('Depth detection')
 
 class VideoProcessor:
@@ -78,6 +80,30 @@ class VideoProcessor:
             t2 = time.time()
         return cv2.cvtColor(results, cv2.COLOR_BGR2RGB), t2-t1
 
+    def detection(self, _image):
+        if _useOptimization:
+            t1 = time.time()
+            with torch.no_grad():
+                objects = self.optimizedObjectDetector(_image)
+                lanes = self.optimizedLane_detector.detect_lanes(_image)
+            t2 = time.time()
+        else:
+            t1 = time.time()
+            objects = self.objectDetector(_image)
+            lanes = self.lane_detector.detect_lanes(_image)
+            t2 = time.time()
+        boxes = objects.pandas().xyxy[0]
+        for _, row in boxes.iterrows():
+            x1, y1, x2, y2 = row['xmin'], row['ymin'], row['xmax'], row['ymax']
+            class_label = row['name']
+            confidence = row['confidence']
+            if class_label not in class_names:
+                confidence_percent = confidence * 100
+                cv2.rectangle(lanes, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+                text = f"{class_label}: {confidence_percent:.2f} %"
+                cv2.putText(lanes, text, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        return lanes, t2-t1
+
     def estimateDepth(self, _image):
         if _useOptimization:
             t1 = time.time()
@@ -100,6 +126,10 @@ class VideoProcessor:
             cv2.putText(ouputImage, fpsText, (0,22), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
         if _laneDetection:
             ouputImage, tact_time = self.detectLane(image)
+            fpsText = f'{1 / tact_time:.2f} FPS'
+            cv2.putText(ouputImage, fpsText, (0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+        if _objectAndLaneDetection:
+            ouputImage, tact_time = self.detection(image)
             fpsText = f'{1 / tact_time:.2f} FPS'
             cv2.putText(ouputImage, fpsText, (0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
         if _depthEstimation:
